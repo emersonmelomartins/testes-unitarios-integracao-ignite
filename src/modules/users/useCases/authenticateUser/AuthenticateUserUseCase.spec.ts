@@ -25,16 +25,16 @@ describe("Authenticate User", () => {
 
     await createUserUseCase.execute(user);
 
-    const authUser = await authenticateUserUseCase.execute({
+    const result = await authenticateUserUseCase.execute({
       email: user.email,
       password: user.password,
     });
 
-    expect(authUser).toHaveProperty("token");
+    expect(result).toHaveProperty("token");
   });
 
-  it("should not be able to authenticate an existing user with incorrect password", () => {
-    expect(async () => {
+  it("should not be able to authenticate an existing user with incorrect password", async () => {
+    await expect(async () => {
       const user = {
         name: "Emerson T",
         email: "emersonT@gmail.com",
@@ -50,8 +50,8 @@ describe("Authenticate User", () => {
     }).rejects.toBeInstanceOf(IncorrectEmailOrPasswordError);
   });
 
-  it("should not be able to authenticate an non-existing user", () => {
-    expect(async () => {
+  it("should not be able to authenticate an non-existing user", async () => {
+    await expect(async () => {
       const user = {
         name: "John Doe",
         email: "john_doe@gmail.com",

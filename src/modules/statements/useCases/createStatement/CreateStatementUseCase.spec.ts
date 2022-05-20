@@ -47,14 +47,14 @@ describe("Create Statement", () => {
 
     await createStatementUseCase.execute({
       user_id: user.id!,
-      amount: 123.45,
+      amount: 1000,
       description: "Incoming Payment",
       type: OperationType.DEPOSIT,
     });
 
     const result = await createStatementUseCase.execute({
       user_id: user.id!,
-      amount: 123.45,
+      amount: 500,
       description: "Buying something",
       type: OperationType.WITHDRAW,
     });
@@ -62,9 +62,9 @@ describe("Create Statement", () => {
     expect(result).toHaveProperty("id");
   });
 
-  it("should not be able withdraw from existing user with insufficient balance", () => {
-    expect(async () => {
-      const user = await createUserUseCase.execute({
+  it("should not be able withdraw from existing user with insufficient balance", async () => {
+    await expect(async () => {
+      const user = await inMemoryUsersRepository.create({
         name: "Emerson M",
         email: "emerson3@gmail.com",
         password: "1234",
@@ -79,12 +79,12 @@ describe("Create Statement", () => {
     }).rejects.toBeInstanceOf(CreateStatementError.InsufficientFunds);
   });
 
-  it("should not be able to create statement with non-existent user", () => {
-    expect(async () => {
+  it("should not be able to create statement with non-existent user", async () => {
+    await expect(async () => {
       await createStatementUseCase.execute({
-        user_id: "1234",
-        amount: 123,
-        description: "Test",
+        user_id: "abc#@!",
+        amount: 321,
+        description: "Statement desc",
         type: OperationType.DEPOSIT,
       });
     }).rejects.toBeInstanceOf(CreateStatementError.UserNotFound);

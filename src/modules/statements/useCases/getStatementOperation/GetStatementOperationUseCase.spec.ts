@@ -49,8 +49,8 @@ describe("Get Statement Operation", () => {
     expect(result).toBe(statement);
   });
 
-  it("should not be able to get non-existent statement operations", () => {
-    expect(async () => {
+  it("should not be able to get non-existent statement operations", async () => {
+    await expect(async () => {
       const user = await createUserUseCase.execute({
         name: "Emerson M",
         email: "emerson20@gmail.com",
@@ -64,8 +64,8 @@ describe("Get Statement Operation", () => {
     }).rejects.toBeInstanceOf(GetStatementOperationError.StatementNotFound);
   });
 
-  it("should not be able to get non-existent user", () => {
-    expect(async () => {
+  it("should not be able to get non-existent user", async () => {
+    await expect(async () => {
       await getStatementOperationUseCase.execute({
         user_id: "any_user_id",
         statement_id: "any_statement_id",

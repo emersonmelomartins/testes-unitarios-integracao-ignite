@@ -13,7 +13,7 @@ describe("Create User", () => {
 
   it("should not be able to create a new user if email already exists", async () => {
     expect(async () => {
-      await createUserUseCase.execute({
+      await inMemoryUsersRepository.create({
         name: "Emerson 1",
         email: "emerson1@gmail.com",
         password: "1234",
