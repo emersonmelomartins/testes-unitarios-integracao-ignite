@@ -10,6 +10,7 @@ import { router } from "./routes";
 import { AppError } from "./shared/errors/AppError";
 import createConnection from "./database";
 
+
 createConnection("localhost");
 
 const app = express();
